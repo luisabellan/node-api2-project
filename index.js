@@ -3,6 +3,7 @@ const posts = require("./data/db");
 
 const server = express();
 server.use(express.json());
+server.use(cors())
 
 server.get("/", (req, res) => res.send("API up and running!"));
 
