@@ -1,13 +1,13 @@
 "use strict";
 
-var express = require('express');
+var express = require("express");
 
-var posts = require('./data/db');
+var posts = require("./data/db");
 
 var server = express();
 server.use(express.json());
-server.get('/', function (req, res) {
-  return res.send('API up and running!');
+server.get("/", function (req, res) {
+  return res.send("API up and running!");
 });
 server.post("/api/posts", function (req, res) {
   if (!req.body.title || !req.body.contents) {
@@ -52,6 +52,16 @@ server.post("/api/posts/:id/comments", function (req, res) {
     });
   });
 });
+server.get("/api/posts", function (req, res) {
+  posts.find().then(function (posts) {
+    res.status(200).json(posts);
+  })["catch"](function (error) {
+    console.log(error);
+    return res.status(500).json({
+      error: "The posts information could not be retrieved."
+    });
+  });
+});
 server.listen(8000, function () {
-  return console.log('API running on port 8000');
+  return console.log("API running on port 8000");
 });
