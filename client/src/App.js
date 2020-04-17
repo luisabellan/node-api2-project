@@ -21,7 +21,7 @@ function App() {
       <ul>
             {data.map(post =>{
               return (
-                <div className="post">
+                <div key={post.id} className="post">
                   <h2>{post.title}</h2>
                   <p>{post.contents}</p>
                 </div>
