@@ -1,12 +1,15 @@
 const express = require("express");
 const cors = require("cors");
+
+const router = express.Router()
+const postsRoutes = require('./posts/postsRoutes')
 const posts = require("./data/db");
 
 const server = express();
 server.use(express.json());
 server.use(cors())
 
-server.get("/", (req, res) => res.send("API up and running!"));
+server.get("/", (req, res) => res.status(200).send("API up and running!"));
 
 server.post("/api/posts", (req, res) => {
   if (!req.body.title || !req.body.contents) {

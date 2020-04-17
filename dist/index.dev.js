@@ -4,13 +4,17 @@ var express = require("express");
 
 var cors = require("cors");
 
+var router = express.Router();
+
+var postsRoutes = require('./posts/postsRoutes');
+
 var posts = require("./data/db");
 
 var server = express();
 server.use(express.json());
 server.use(cors());
 server.get("/", function (req, res) {
-  return res.send("API up and running!");
+  return res.status(200).send("API up and running!");
 });
 server.post("/api/posts", function (req, res) {
   if (!req.body.title || !req.body.contents) {
