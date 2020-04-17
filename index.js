@@ -27,26 +27,27 @@ server.post('/api/posts', (req, res) => {
 });
 
 server.post('/api/posts/:id/comments', (req, res) => {
-  //console.log(req.params);
-  const post = posts.findById(req.body.post_id);
-  //console.log(post);
-
-  if (!post) {
-    return res.status(404).json({
-      message: "The post with the specified ID does not exist.",
-    });
-  }
-
+  console.log(req.params.id);
   if (!req.body.text) {
     return res.status(400).json({
       errorMessage: "Please provide text for the comment.",
     });
   }
+  const comment = posts.findCommentById(req.body.post_id);
+ 
+
+ 
+  console.log(comment.text);
 
   posts
     .insertComment(req.body)
     .then((comment) => {
-     // console.log(comment);
+        if (!comment) {
+            return res.status(404).json({
+                message: "The comment with the specified ID does not exist.",
+            });
+        }
+      console.log(comment);
       return res.status(201).json(comment);
     })
     .catch((error) => {

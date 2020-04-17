@@ -26,14 +26,7 @@ server.post('/api/posts', function (req, res) {
   });
 });
 server.post('/api/posts/:id/comments', function (req, res) {
-  //console.log(req.params);
-  var post = posts.findById(req.body.post_id); //console.log(post);
-
-  if (!post) {
-    return res.status(404).json({
-      message: "The post with the specified ID does not exist."
-    });
-  }
+  console.log(req.params.id);
 
   if (!req.body.text) {
     return res.status(400).json({
@@ -41,8 +34,16 @@ server.post('/api/posts/:id/comments', function (req, res) {
     });
   }
 
+  var comment = posts.findCommentById(req.body.post_id);
+  console.log(comment.text);
   posts.insertComment(req.body).then(function (comment) {
-    // console.log(comment);
+    if (!comment) {
+      return res.status(404).json({
+        message: "The comment with the specified ID does not exist."
+      });
+    }
+
+    console.log(comment);
     return res.status(201).json(comment);
   })["catch"](function (error) {
     console.log(error);
