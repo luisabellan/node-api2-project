@@ -1,6 +1,6 @@
 "use strict";
 
-var express = require('express');
+var express = require("express");
 
 var posts = require("./data/db");
 
@@ -9,7 +9,7 @@ server.use(express.json());
 server.get("/", function (req, res) {
   return res.send("API up and running!");
 });
-server.post('/api/posts', function (req, res) {
+server.post("/api/posts", function (req, res) {
   if (!req.body.title || !req.body.contents) {
     return res.status(400).json({
       errorMessage: "Please provide title and contents for the post."
@@ -25,7 +25,7 @@ server.post('/api/posts', function (req, res) {
     });
   });
 });
-server.post('/api/posts/:id/comments', function (req, res) {
+server.post("/api/posts/:id/comments", function (req, res) {
   console.log(req.params.id);
   var postId = req.params.id;
   req.body.post_id = postId;
@@ -60,7 +60,7 @@ server.post('/api/posts/:id/comments', function (req, res) {
     });
   }
 });
-server.get('/api/posts', function (req, res) {
+server.get("/api/posts", function (req, res) {
   posts.find().then(function (posts) {
     res.status(200).json(posts);
   })["catch"](function (error) {
@@ -70,7 +70,7 @@ server.get('/api/posts', function (req, res) {
     });
   });
 });
-server.get('/api/posts/:id', function (req, res) {
+server.get("/api/posts/:id", function (req, res) {
   posts.findById(req.params.id).then(function (post) {
     // console.log(post);
     if (post.length === 0) {
@@ -87,7 +87,7 @@ server.get('/api/posts/:id', function (req, res) {
     });
   });
 });
-server.get('/api/posts/:id/comments', function (req, res) {
+server.get("/api/posts/:id/comments", function (req, res) {
   posts.findCommentById(req.params.id).then(function (post) {
     // console.log(post);
     if (post.length === 0) {
@@ -101,6 +101,22 @@ server.get('/api/posts/:id/comments', function (req, res) {
     console.log(error);
     return res.status(500).json({
       error: "The comments information could not be retrieved."
+    });
+  });
+});
+server["delete"]("/api/posts/:id", function (req, res) {
+  posts.findById(req.params.id).then(function (post) {
+    if (post.length === 0) {
+      return res.status(404).json({
+        message: "The post with the specified ID does not exist."
+      });
+    }
+  });
+  posts.remove(req.params.id).then(function (post) {
+    res.status(204).json();
+  })["catch"](function (error) {
+    res.status(500).json({
+      error: "The post could not be removed"
     });
   });
 });
