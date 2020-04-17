@@ -2,6 +2,8 @@
 
 var express = require("express");
 
+var cors = require("cors");
+
 var posts = require("./data/db");
 
 var server = express();
