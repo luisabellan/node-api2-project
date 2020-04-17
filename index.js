@@ -51,7 +51,7 @@ server.post("/api/posts/:id/comments", (req, res) => {
 		.catch((error) => {
 			console.log(error)
 			return res.status(500).json({
-				error: "There was an error while saving the post to the database",
+				error: "There was an error while saving the comment to the database",
 			})
 		})
 })
