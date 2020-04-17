@@ -2,7 +2,6 @@ const express = require('express');
 const posts = require('../data/db');
 const router = express.Router();
 
-router.get("/api/", (req, res) => res.status(200).send("API up and running!"));
 
 router.post("", (req, res) => {
   if (!req.body.title || !req.body.contents) {

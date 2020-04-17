@@ -5,9 +5,6 @@ var express = require('express');
 var posts = require('../data/db');
 
 var router = express.Router();
-router.get("/api/", function (req, res) {
-  return res.status(200).send("API up and running!");
-});
 router.post("", function (req, res) {
   if (!req.body.title || !req.body.contents) {
     return res.status(400).json({
