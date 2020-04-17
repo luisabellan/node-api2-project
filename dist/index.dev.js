@@ -120,6 +120,32 @@ server["delete"]("/api/posts/:id", function (req, res) {
     });
   });
 });
+server.put("/api/posts/:id", function (req, res) {
+  if (!req.body.title || !req.body.contents) {
+    return res.status(400).json({
+      errorMessage: "Please provide title and contents for the post."
+    });
+  }
+
+  posts.findById(req.params.id).then(function (post) {
+    if (post.length === 0) {
+      return res.status(404).json({
+        message: "The post with the specified ID does not exist."
+      });
+    }
+  })["catch"](function (error) {
+    console.log(error);
+  });
+  posts.update(req.params.id, req.body).then(function (post) {
+    console.log(res);
+    return res.status(200).json(post);
+  })["catch"](function (error) {
+    console.log(error);
+    return res.status(500).json({
+      error: "The post information could not be modified."
+    });
+  });
+});
 server.listen(8000, function () {
   return console.log("API running on port 8000");
 });
