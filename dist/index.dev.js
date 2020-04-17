@@ -26,9 +26,8 @@ server.post('/api/posts', function (req, res) {
   });
 });
 server.post('/api/posts/:id/comments', function (req, res) {
-  console.log(req.params);
-  var post = posts.findById(req.params.id);
-  console.log(post);
+  //console.log(req.params);
+  var post = posts.findById(req.body.post_id); //console.log(post);
 
   if (!post) {
     return res.status(404).json({
@@ -43,7 +42,7 @@ server.post('/api/posts/:id/comments', function (req, res) {
   }
 
   posts.insertComment(req.body).then(function (comment) {
-    console.log(comment);
+    // console.log(comment);
     return res.status(201).json(comment);
   })["catch"](function (error) {
     console.log(error);
@@ -62,7 +61,24 @@ server.get('/api/posts', function (req, res) {
     });
   });
 });
-server.get('/api/posts/:id', function (req, res) {});
+server.get("/api/posts/:id", function (req, res) {
+  posts.findById(req.params.id).then(function (post) {
+    console.log(post);
+
+    if (post.length === 0) {
+      return res.status(404).json({
+        message: "The post with the specified ID does not exist."
+      });
+    }
+
+    return res.status(200).json(post);
+  })["catch"](function (error) {
+    console.log(error);
+    return res.status(500).json({
+      error: "The post information could not be retrieved."
+    });
+  });
+});
 server.listen(8000, function () {
   return console.log("API running on port 8000");
 });

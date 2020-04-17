@@ -27,9 +27,9 @@ server.post('/api/posts', (req, res) => {
 });
 
 server.post('/api/posts/:id/comments', (req, res) => {
-  console.log(req.params);
-  const post = posts.findById(req.params.id);
-  console.log(post);
+  //console.log(req.params);
+  const post = posts.findById(req.body.post_id);
+  //console.log(post);
 
   if (!post) {
     return res.status(404).json({
@@ -46,7 +46,7 @@ server.post('/api/posts/:id/comments', (req, res) => {
   posts
     .insertComment(req.body)
     .then((comment) => {
-      console.log(comment);
+     // console.log(comment);
       return res.status(201).json(comment);
     })
     .catch((error) => {
@@ -75,8 +75,28 @@ server.get('/api/posts', (req, res) => {
 
 });
 
-server.get('/api/posts/:id', (req,res) =>{
-
-})
+server.get("/api/posts/:id", (req, res) => {
+     
+    
+  
+    posts
+      .findById(req.params.id)
+      .then((post) => {
+        console.log(post);
+        if(post.length === 0){
+            return res.status(404).json({
+                message: "The post with the specified ID does not exist.",
+              });
+        }
+     
+        return res.status(200).json(post);
+      })
+      .catch((error) => {
+        console.log(error);
+        return res.status(500).json({
+          error: "The post information could not be retrieved.",
+        });
+      });
+    })
 
 server.listen(8000, () => console.log("API running on port 8000"));
