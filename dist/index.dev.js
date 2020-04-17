@@ -1,15 +1,15 @@
 "use strict";
 
-var express = require("express");
+var express = require('express');
 
 var posts = require("./data/db");
 
 var server = express();
 server.use(express.json());
-server.get("/", function (req, res) {
+server.get('/', function (req, res) {
   return res.send("API up and running!");
 });
-server.post("/api/posts", function (req, res) {
+server.post('/api/posts', function (req, res) {
   if (!req.body.title || !req.body.contents) {
     return res.status(400).json({
       errorMessage: "Please provide title and contents for the post."
@@ -25,7 +25,7 @@ server.post("/api/posts", function (req, res) {
     });
   });
 });
-server.post("/api/posts/:id/comments", function (req, res) {
+server.post('/api/posts/:id/comments', function (req, res) {
   console.log(req.params);
   var post = posts.findById(req.params.id);
   console.log(post);
@@ -52,7 +52,7 @@ server.post("/api/posts/:id/comments", function (req, res) {
     });
   });
 });
-server.get("/api/posts", function (req, res) {
+server.get('/api/posts', function (req, res) {
   posts.find().then(function (posts) {
     res.status(200).json(posts);
   })["catch"](function (error) {
@@ -62,6 +62,7 @@ server.get("/api/posts", function (req, res) {
     });
   });
 });
+server.get('/api/posts/:id', function (req, res) {});
 server.listen(8000, function () {
   return console.log("API running on port 8000");
 });
