@@ -1,0 +1,18 @@
+body {
+  background-color: #89ad89;
+}
+
+body .post {
+  width: 50%;
+  text-align: justify;
+  margin: 0 auto;
+  background-color: #8b3232;
+}
+
+body .post h2 {
+  color: #c5a4a4;
+}
+
+body .post p {
+  color: orange;
+}

@@ -1,0 +1,1 @@
+"use strict";var express=require("express"),posts=require("../data/db"),router=express.Router();router.get("",function(e,r){return r.status(200).send("API up and running!")}),module.exports=router;
